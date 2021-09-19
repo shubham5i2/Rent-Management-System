@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.FutureOrPresent;
@@ -121,10 +120,10 @@ public class Guest {
 	@Size(min = 2, message = "state should have atleast 2 characters")
 	private String state;
 
-	/* zipcode cannot be empty/blank. zipcode should be atleast 2 characters */
+	/* zipcode cannot be empty/blank. zipcode should be atleast 3 characters */
 	@Column(name = "zip_code")
 	@NotNull(message = "zipcode cannot be blank")
-	@Range(min = 2, message = "zipcode should have atleast 2 characters")
+	@Range(min = 100, message = "zipcode should have atleast 3 characters")
 	private long zipCode;
 
 	/*
