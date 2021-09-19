@@ -8,10 +8,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Range;
@@ -26,79 +30,119 @@ public class Guest {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
+	/* Fullname should be between 2 and 50 characters. Fullname cannot be null */
 	@Column(name = "full_name")
-	@NotEmpty(message = "fullname cannot be empty")
 	@NotBlank(message = "fullname cannot be blank")
 	@Size(min = 2, message = "fullname should have atleast 2 characters")
+	@Size(max = 50, message = "fullname should be less than 50 characters")
 	private String fullName;
 
+	/*
+	 * Date of birth cannot be present or future date. Accepted format is
+	 * dd-MM-yyyy(Ex. 01-01-2000)
+	 */
 	@Column(name = "dob")
-	//	@DateTimeFormat(iso = ISO.DATE, pattern = "dd/MM/yyyy")
-	@JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING)
+	@Past(message = "date of birth cannot be present or future date")
+	@JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
 	private LocalDate dob;
 
+	/* server validation pending for phone number */
 	@Column(name = "phone")
 	@NotNull(message = "phone number cannot be empty")
 	private long phone;
 
+	/* e-mail address cannot be blank. Valid e-mail address format: example@domain.com */
 	@Column(name = "email")
-	@Email
-	@NotEmpty(message = "email cannot be empty")
+	@Email(message = "Please enter a valid e-mail address")
+	@NotBlank(message = "e-mail address cannot be blank")
 	private String email;
 
+	/* government proof cannot be empty/blank. */
 	@Column(name = "govt_proof")
 	@NotEmpty(message = "government proof cannot be empty")
+	@NotBlank(message = "government proof cannot be blank")
 	private String govtProof;
 
+	/*
+	 * government id cannot be empty/blank. government id should be between 3 and 50
+	 * characters.
+	 */
 	@Column(name = "govt_id")
 	@NotEmpty(message = "government id cannot be empty")
 	@NotBlank(message = "government id cannot be blank")
 	@Size(min = 3, message = "government id should have atleast 3 characters")
+	@Size(max = 50, message = "government id should be less than 50 characters")
 	private String govtId;
 
+	/*
+	 * address1 cannot be empty/blank. address1 should be between 3 and 50
+	 * characters.
+	 */
 	@Column(name = "address_1")
 	@NotEmpty(message = "address1 cannot be empty")
 	@NotBlank(message = "address1 cannot be blank")
 	@Size(min = 3, message = "address1 should have atleast 3 characters")
+	@Size(max = 50, message = "address1 should be less than 50 characters")
 	private String address1;
 
+	/*
+	 * address2 cannot be empty/blank. address2 should be between 3 and 50
+	 * characters.
+	 */
 	@Column(name = "address_2")
 	@NotEmpty(message = "address2 cannot be empty")
 	@NotBlank(message = "address2 cannot be blank")
 	@Size(min = 3, message = "address2 should have atleast 3 characters")
+	@Size(max = 50, message = "address2 should be less than 50 characters")
 	private String address2;
 
+	/*
+	 * address3 cannot be empty/blank. address3 should be between 3 and 50
+	 * characters.
+	 */
 	@Column(name = "address_3")
 	@NotEmpty(message = "address3 cannot be empty")
 	@NotBlank(message = "address3 cannot be blank")
 	@Size(min = 3, message = "address3 should have atleast 3 characters")
+	@Size(max = 50, message = "address3 should be less than 50 characters")
 	private String address3;
 
+	/* city cannot be empty/blank. city should be atleast 2 characters */
 	@Column(name = "city")
 	@NotEmpty(message = "city cannot be empty")
 	@NotBlank(message = "city cannot be blank")
 	@Size(min = 2, message = "address3 should have atleast 2 characters")
 	private String city;
 
+	/* state cannot be empty/blank. state should be atleast 2 characters */
 	@Column(name = "state")
 	@NotEmpty(message = "state cannot be empty")
 	@NotBlank(message = "state cannot be blank")
 	@Size(min = 2, message = "state should have atleast 2 characters")
 	private String state;
 
+	/* zipcode cannot be empty/blank. zipcode should be atleast 2 characters */
 	@Column(name = "zip_code")
 	@NotNull(message = "zipcode cannot be blank")
 	@Range(min = 2, message = "zipcode should have atleast 2 characters")
 	private long zipCode;
 
+	/*
+	 * Date of joining cannot be past date. Accepted format is dd-MM-yyyy(Ex.
+	 * 01-01-2000)
+	 */
 	@Column(name = "doj")
-	//	@DateTimeFormat(iso = ISO.DATE, pattern = "dd/MM/yyyy")
-	@JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING)
+	@FutureOrPresent(message = "date of joining should be present or future date")
+	@JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
 	private LocalDate doj;
 
+	/*
+	 * Date of leaving cannot be past date. Accepted format is dd-MM-yyyy(Ex.
+	 * 01-01-2000)
+	 */
 	@Column(name = "dol")
-	//	@DateTimeFormat(iso = ISO.DATE, pattern = "dd/MM/yyyy")
-	@JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING)
+	@Future(message = "date of leaving should be future date")
+	@JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
 	private LocalDate dol;
 
 	@Column(name = "is_valid_user")
